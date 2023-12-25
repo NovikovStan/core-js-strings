@@ -19,10 +19,9 @@
  *   getStringLength(null) => 0
  *   getStringLength(undefined) => 0
  */
-function getStringLength(/* value */) {
-  throw new Error('Not implemented');
+function getStringLength(value) {
+  return value !== null && value !== undefined ? value.length : 0;
 }
-
 /**
  * Returns true if the value is a string, otherwise returns false.
  *
@@ -37,10 +36,13 @@ function getStringLength(/* value */) {
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-function isString(/* value */) {
-  throw new Error('Not implemented');
+function isString(value) {
+  return (
+    value !== null &&
+    value !== undefined &&
+    (value.toString() === value || value instanceof String)
+  );
 }
-
 /**
  * Returns the result of concatenation of two strings.
  *
@@ -53,8 +55,8 @@ function isString(/* value */) {
  *   concatenateStrings('aa', '') => 'aa'.
  *   concatenateStrings('', 'bb') => 'bb'
  */
-function concatenateStrings(/* value1, value2 */) {
-  throw new Error('Not implemented');
+function concatenateStrings(value1, value2) {
+  return value1.concat(value2);
 }
 
 /**
@@ -68,8 +70,8 @@ function concatenateStrings(/* value1, value2 */) {
  *   getFirstChar('cat') => 'c'
  *   getFirstChar('') => ''
  */
-function getFirstChar(/* value */) {
-  throw new Error('Not implemented');
+function getFirstChar(value) {
+  return value.charAt(0);
 }
 
 /**
@@ -83,10 +85,9 @@ function getFirstChar(/* value */) {
  *   removeLeadingAndTrailingWhitespaces('cat ') => 'cat'
  *   removeLeadingAndTrailingWhitespaces('\t\t\tHello, World! ') => 'Hello, World!'
  */
-function removeLeadingAndTrailingWhitespaces(/* value */) {
-  throw new Error('Not implemented');
+function removeLeadingAndTrailingWhitespaces(value) {
+  return value.trim();
 }
-
 /**
  * Removes only leading whitespace characters from the string.
  *
@@ -98,8 +99,8 @@ function removeLeadingAndTrailingWhitespaces(/* value */) {
  *   removeLeadingWhitespaces('cat ') => 'cat '
  *   removeLeadingWhitespaces('\t\t\tHello, World! ') => 'Hello, World! '
  */
-function removeLeadingWhitespaces(/* value */) {
-  throw new Error('Not implemented');
+function removeLeadingWhitespaces(value) {
+  return value.trimStart(value);
 }
 
 /**
@@ -113,8 +114,8 @@ function removeLeadingWhitespaces(/* value */) {
  *   removeTrailingWhitespaces('cat ') => 'cat'
  *   removeTrailingWhitespaces('\t\t\tHello, World! ') => '\t\t\tHello, World!'
  */
-function removeTrailingWhitespaces(/* value */) {
-  throw new Error('Not implemented');
+function removeTrailingWhitespaces(value) {
+  return value.trimEnd(value);
 }
 
 /**
@@ -130,8 +131,10 @@ function removeTrailingWhitespaces(/* value */) {
  *   repeatString('', 3) => ''
  *   repeatString('abc', -2) => ''
  */
-function repeatString(/* str, times */) {
-  throw new Error('Not implemented');
+function repeatString(value, count) {
+  let result = '';
+  if (count > 0) result = value.repeat(count);
+  return result;
 }
 
 /**
@@ -146,8 +149,14 @@ function repeatString(/* str, times */) {
  *   removeFirstOccurrences('I like legends', 'end') => 'I like legs'.
  *   removeFirstOccurrences('ABABAB', 'BA') => 'ABAB'.
  */
-function removeFirstOccurrences(/* str, value */) {
-  throw new Error('Not implemented');
+function removeFirstOccurrences(str, value) {
+  // return str.replace(value, '');
+  const startIndex = str.indexOf(value);
+  return startIndex !== -1
+    ? str
+        .slice(0, startIndex)
+        .concat(str.slice(startIndex + value.length, str.length))
+    : str;
 }
 
 /**
@@ -162,8 +171,13 @@ function removeFirstOccurrences(/* str, value */) {
  *   removeLastOccurrences('I like legends', 'end') => 'I like legs'.
  *   removeLastOccurrences('ABABAB', 'BA') => 'ABAB'.
  */
-function removeLastOccurrences(/* str, value */) {
-  throw new Error('Not implemented');
+function removeLastOccurrences(str, value) {
+  const startIndex = str.lastIndexOf(value);
+  return startIndex !== -1
+    ? str
+        .slice(0, startIndex)
+        .concat(str.slice(startIndex + value.length, str.length))
+    : str;
 }
 
 /**
@@ -178,8 +192,15 @@ function removeLastOccurrences(/* str, value */) {
  *   sumOfCodes('') => 0
  *   sumOfCodes() => 0
  */
-function sumOfCodes(/* str */) {
-  throw new Error('Not implemented');
+function sumOfCodes(str) {
+  let sum = 0;
+  let i = 0;
+  if (str !== null && str !== undefined)
+    while (i < str.length) {
+      sum += str.charCodeAt(i);
+      i += 1;
+    }
+  return sum;
 }
 
 /**
@@ -193,8 +214,8 @@ function sumOfCodes(/* str */) {
  *   startsWith('Hello World', 'World') => false
  *   startsWith('Hello World', 'Hello') => true
  */
-function startsWith(/* str, substr */) {
-  throw new Error('Not implemented');
+function startsWith(str, substr) {
+  return str.startsWith(substr);
 }
 
 /**
@@ -208,8 +229,8 @@ function startsWith(/* str, substr */) {
  *   endsWith('Hello World', 'World') => true
  *   endsWith('Hello World', 'Hello') => false
  */
-function endsWith(/* str, substr */) {
-  throw new Error('Not implemented');
+function endsWith(str, substr) {
+  return str.endsWith(substr);
 }
 
 /**
@@ -225,8 +246,10 @@ function endsWith(/* str, substr */) {
  *   formatTime(0, 45) => "00:45"
  *   formatTime(0, 0) => "00:00"
  */
-function formatTime(/* minutes, seconds */) {
-  throw new Error('Not implemented');
+function formatTime(minutes, seconds) {
+  return `${minutes.toString().padStart(2, 0)}:${seconds
+    .toString()
+    .padStart(2, 0)}`;
 }
 
 /**
@@ -239,8 +262,14 @@ function formatTime(/* minutes, seconds */) {
  *   reverseString('abcdef') => 'fedcba'
  *   reverseString('12345') => '54321'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  let i = 0;
+  let newStr = '';
+  while (i < str.length) {
+    newStr = str.charAt(i) + newStr;
+    i += 1;
+  }
+  return newStr;
 }
 
 /**
@@ -254,8 +283,10 @@ function reverseString(/* str */) {
  *   orderAlphabetically('textbook') => 'bekoottx'
  *   orderAlphabetically('abc123xyz') => '123abcxyz'
  */
-function orderAlphabetically(/* str */) {
-  throw new Error('Not implemented');
+function orderAlphabetically(str) {
+  const arr = str.split('');
+  arr.sort();
+  return arr.join('');
 }
 
 /**
@@ -270,8 +301,8 @@ function orderAlphabetically(/* str */) {
  *   containsSubstring('JavaScript is Fun', 'Python') => false
  *   containsSubstring('12345', '34') => true
  */
-function containsSubstring(/* str, substring */) {
-  throw new Error('Not implemented');
+function containsSubstring(str, substring) {
+  return str.includes(substring);
 }
 
 /**
@@ -288,8 +319,12 @@ function containsSubstring(/* str, substring */) {
  *   countVowels('aEiOu') => 5
  *   countVowels('XYZ') => 1
  */
-function countVowels(/* str */) {
-  throw new Error('Not implemented');
+function countVowels(str) {
+  const regexp = /[aeiouyAEIOUY]/g;
+  const array = str.match(regexp);
+  let counter = 0;
+  if (array !== null && array !== undefined) counter = array.length;
+  return counter;
 }
 
 /**
@@ -305,8 +340,13 @@ function countVowels(/* str */) {
  *   isPalindrome('apple') => false
  *   isPalindrome('No lemon, no melon') => true
  */
-function isPalindrome(/* str */) {
-  throw new Error('Not implemented');
+function isPalindrome(str) {
+  const regexp = /[,!?]/g;
+  let string = str.replaceAll(' ', '');
+  string = string.replaceAll(regexp, '');
+  return (
+    string.toLocaleLowerCase() === reverseString(string.toLocaleLowerCase())
+  );
 }
 
 /**
@@ -321,8 +361,15 @@ function isPalindrome(/* str */) {
  *   findLongestWord('A long and winding road') => 'winding'
  *   findLongestWord('No words here') => 'words'
  */
-function findLongestWord(/* sentence */) {
-  throw new Error('Not implemented');
+function findLongestWord(sentence) {
+  const array = sentence.split(' ');
+  let index = 0;
+  let i = 0;
+  while (i < array.length - 1) {
+    if (array[i + 1].length > array[i].length) index = i + 1;
+    i += 1;
+  }
+  return array[index];
 }
 
 /**
@@ -335,8 +382,14 @@ function findLongestWord(/* sentence */) {
  *   reverseWords('Hello World') => 'olleH dlroW'
  *   reverseWords('The Quick Brown Fox') => 'ehT kciuQ nworB xoF'
  */
-function reverseWords(/* str */) {
-  throw new Error('Not implemented');
+function reverseWords(str) {
+  const arr = str.split(' ');
+  let i = 0;
+  while (i < arr.length) {
+    arr[i] = reverseString(arr[i]);
+    i += 1;
+  }
+  return arr.join(' ');
 }
 
 /**
@@ -350,8 +403,17 @@ function reverseWords(/* str */) {
  *   invertCase('JavaScript is Fun') => 'jAVAsCRIPT IS fUN'
  *   invertCase('12345') => '12345'
  */
-function invertCase(/* str */) {
-  throw new Error('Not implemented');
+function invertCase(str) {
+  const lowerReg = /[abcdefghijklmnopqrstuvwxyz]/g;
+  // const upperReg = /[ABCDEFGHIJKLMNOPQRSTUVWXYZ]/g;
+  const arr = str.split('');
+  let i = 0;
+  while (i < arr.length) {
+    if (arr[i].match(lowerReg)) arr[i] = arr[i].toUpperCase();
+    else arr[i] = arr[i].toLowerCase();
+    i += 1;
+  }
+  return arr.join('');
 }
 
 /**
@@ -367,8 +429,8 @@ function invertCase(/* str */) {
  *   getStringFromTemplate('John','Doe') => 'Hello, John Doe!'
  *   getStringFromTemplate('Chuck','Norris') => 'Hello, Chuck Norris!'
  */
-function getStringFromTemplate(/* firstName, lastName */) {
-  throw new Error('Not implemented');
+function getStringFromTemplate(firstName, lastName) {
+  return `Hello, ${firstName} ${lastName}!`;
 }
 
 /**
@@ -381,8 +443,8 @@ function getStringFromTemplate(/* firstName, lastName */) {
  *   extractNameFromTemplate('Hello, John Doe!') => 'John Doe'
  *   extractNameFromTemplate('Hello, Chuck Norris!') => 'Chuck Norris'
  */
-function extractNameFromTemplate(/* value */) {
-  throw new Error('Not implemented');
+function extractNameFromTemplate(value) {
+  return value.substring(7, value.length - 1);
 }
 
 /**
@@ -396,8 +458,8 @@ function extractNameFromTemplate(/* value */) {
  *   unbracketTag('<span>') => 'span'
  *   unbracketTag('<a>') => 'a'
  */
-function unbracketTag(/* str */) {
-  throw new Error('Not implemented');
+function unbracketTag(str) {
+  return str.substring(1, str.length - 1);
 }
 
 /**
@@ -415,8 +477,8 @@ function unbracketTag(/* str */) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails(/* str */) {
-  throw new Error('Not implemented');
+function extractEmails(str) {
+  return str.split(';');
 }
 
 /**
@@ -435,10 +497,23 @@ function extractEmails(/* str */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const alphabetEnc = 'NOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLM';
+  let result = '';
+  let isUpperCase = true;
+  for (let i = 0; i < str.length; i += 1) {
+    let encrypted = '';
+    const letter = str.charAt(i);
+    isUpperCase = letter === letter.toUpperCase();
+    const index = alphabet.indexOf(letter.toUpperCase());
+    if (index === -1) encrypted = letter;
+    else if (isUpperCase) encrypted = alphabetEnc.charAt(index);
+    else encrypted = alphabetEnc.charAt(index).toLowerCase();
+    result += encrypted;
+  }
+  return result;
 }
-
 /**
  * Returns playid card id.
  *
@@ -463,8 +538,19 @@ function encodeToRot13(/* str */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  let result = 0;
+  const weight = value.substring(0, value.length - 1);
+  const suit = value.substring(value.length - 1, value.length);
+  if (weight === 'J') result += 10;
+  else if (weight === 'A') result += 0;
+  else if (weight === 'Q') result += 11;
+  else if (weight === 'K') result += 12;
+  else result += +weight - 1;
+  if (suit === '♦') result += 13;
+  else if (suit === '♥') result += 26;
+  else if (suit === '♠') result += 39;
+  return result;
 }
 
 module.exports = {
